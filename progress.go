@@ -30,6 +30,9 @@ func progressBar(a fyne.App, w fyne.Window) *fyne.Container {
 	diffData := binding.BindFloat(&diff)
 
 	totalProgress := widget.NewProgressBarWithData(diffData)
+	totalProgress.TextFormatter = func() string {
+		return fmt.Sprintf("%f%%", totalProgress.Value*100)
+	}
 
 	return container.NewVBox(totalProgress)
 }
