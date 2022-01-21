@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
-	"time"
 )
 
 func main() {

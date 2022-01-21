@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+	"time"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"regexp"
-	"strconv"
-	"time"
 )
 
 func settingsItem(a fyne.App, w fyne.Window) *container.TabItem {

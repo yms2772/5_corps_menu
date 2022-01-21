@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fyne.io/fyne/v2"
 	"io/ioutil"
 	"log"
 	"math"
@@ -10,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"fyne.io/fyne/v2"
 )
 
 func UpdateDate(a fyne.App) {

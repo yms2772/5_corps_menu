@@ -2,9 +2,10 @@ package main
 
 import (
 	_ "embed"
+	"time"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
-	"time"
 )
 
 //go:embed src/NanumGothicBold.ttf
