@@ -2,11 +2,40 @@ package main
 
 import (
 	"encoding/json"
+	"fyne.io/fyne/v2"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
+	"strconv"
 	"strings"
+	"time"
 )
+
+func UpdateDate(a fyne.App) {
+	enterArmyDate = a.Preferences().StringWithFallback("enter_army_date", "none")
+	dischargeArmyDate = a.Preferences().StringWithFallback("discharge_army_date", "none")
+	vacationDay = a.Preferences().IntWithFallback("vacation", 0)
+
+	enterArmyDateTime, _ = time.Parse("20060102", enterArmyDate)
+	dischargeArmyDateTime, _ = time.Parse("20060102", dischargeArmyDate)
+
+	totalArmyDateNanoSeconds = dischargeArmyDateTime.Sub(enterArmyDateTime).Nanoseconds()
+	totalWOVArmyDateNanoSeconds = dischargeArmyDateTime.AddDate(0, 0, -vacationDay).Sub(enterArmyDateTime).Nanoseconds()
+
+	diff = float64(time.Now().Sub(enterArmyDateTime).Nanoseconds()) / float64(totalArmyDateNanoSeconds)
+	diffWOV = float64(time.Now().Sub(enterArmyDateTime).Nanoseconds()) / float64(totalWOVArmyDateNanoSeconds)
+}
+
+func Round(num float64) int {
+	return int(num + math.Copysign(0, num))
+}
+
+func FixedDecimal(num float64, precision int) string {
+	output := math.Pow(10, float64(precision))
+
+	return strconv.FormatFloat(float64(Round(num*output))/output, 'f', -1, 64)
+}
 
 func DeleteEmptyMenu(menu []string) []string {
 	var optimizedMenu []string
@@ -27,6 +56,18 @@ func LoadMenu() (data OpenAPI, err error) {
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	_ = json.Unmarshal(body, &data)
+
+	return
+}
+
+func CheckDayExist(data OpenAPI, date string) (ok bool) {
+	ok = false
+
+	for _, item := range data.Data.Row {
+		if date == item.Dates {
+			ok = true
+		}
+	}
 
 	return
 }

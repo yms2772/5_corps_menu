@@ -15,15 +15,19 @@ func (*myTheme) Font(s fyne.TextStyle) fyne.Resource {
 	if s.Monospace {
 		return theme.DefaultTheme().Font(s)
 	}
+
 	if s.Bold {
 		if s.Italic {
 			return theme.DefaultTheme().Font(s)
 		}
+
 		return resourceNanumGothicBold
 	}
+
 	if s.Italic {
 		return theme.DefaultTheme().Font(s)
 	}
+
 	return resourceNanumGothicBold
 }
 

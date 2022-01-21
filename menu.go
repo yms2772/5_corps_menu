@@ -50,6 +50,12 @@ func menuItem(w fyne.Window) *container.TabItem {
 		nowDateBtnText, _ := time.Parse("2006-01-02", nowDateBtn.Text)
 		dateMove := nowDateBtnText.AddDate(0, 0, -1)
 
+		if !CheckDayExist(data, dateMove.Format("2006-01-02")) {
+			dialog.ShowInformation("안내", "더 이상 식단이 없습니다\n새로운 달이라면 업데이트를 해주세요", w)
+
+			return
+		}
+
 		nowDateBtn.SetText(dateMove.Format("2006-01-02"))
 
 		menu = GenerateMenuCard(data, nowDateBtn.Text)
@@ -63,6 +69,12 @@ func menuItem(w fyne.Window) *container.TabItem {
 		nowDateBtnText, _ := time.Parse("2006-01-02", nowDateBtn.Text)
 		dateMove := nowDateBtnText.AddDate(0, 0, 1)
 
+		if !CheckDayExist(data, dateMove.Format("2006-01-02")) {
+			dialog.ShowInformation("안내", "더 이상 식단이 없습니다\n새로운 달이라면 식단표 업데이트를 해주세요", w)
+
+			return
+		}
+
 		nowDateBtn.SetText(dateMove.Format("2006-01-02"))
 
 		menu = GenerateMenuCard(data, nowDateBtn.Text)
@@ -72,7 +84,7 @@ func menuItem(w fyne.Window) *container.TabItem {
 		dinnerCard.SetContent(widget.NewLabel(strings.Join(menu[nowDateBtn.Text]["저녁"], "\n")))
 	})
 
-	refreshBtn := widget.NewButtonWithIcon("", theme.ViewRefreshIcon(), func() {
+	refreshBtn := widget.NewButtonWithIcon("식단표 업데이트", theme.ViewRefreshIcon(), func() {
 		updateProgress := widget.NewProgressBarInfinite()
 		updateDialog := dialog.NewCustom("식단표 업데이트 중...", "취소", updateProgress, w)
 
