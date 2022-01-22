@@ -100,7 +100,7 @@ func menuItem(w fyne.Window) *container.TabItem {
 
 	dateButton := container.NewBorder(nil, nil, beforeDateBtn, afterDateBtn, nowDateBtn)
 
-	return container.NewTabItemWithIcon("식단표", theme.SearchIcon(),
+	return container.NewTabItemWithIcon("식단표", resourceIconTabFood,
 		container.NewVBox(dateButton, breakfastCard, lunchCard, dinnerCard, layout.NewSpacer(), refreshBtn),
 	)
 }
