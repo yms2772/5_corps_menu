@@ -2,11 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -28,14 +27,14 @@ func UpdateDate(a fyne.App) {
 	diffWOV = float64(time.Now().Sub(enterArmyDateTime).Nanoseconds()) / float64(totalWOVArmyDateNanoSeconds)
 }
 
-func Round(num float64) int {
-	return int(num + math.Copysign(0, num))
-}
+func FixedDecimal(num float64, point int) string {
+	numSplit := strings.Split(fmt.Sprintf("%.10f", num), ".")
 
-func FixedDecimal(num float64, precision int) string {
-	output := math.Pow(10, float64(precision))
+	if len(numSplit) != 2 {
+		return "0"
+	}
 
-	return strconv.FormatFloat(float64(Round(num*output))/output, 'f', -1, 64)
+	return fmt.Sprintf("%s.%s", numSplit[0], numSplit[1][:point])
 }
 
 func DeleteEmptyMenu(menu []string) []string {

@@ -11,10 +11,17 @@ import (
 //go:embed src/NanumGothicBold.ttf
 var fontNanumGothicBold []byte
 
+//go:embed src/tab_food_icon.png
+var iconTabFood []byte
+
 var (
 	resourceNanumGothicBold = &fyne.StaticResource{
 		StaticName:    "NanumGothicBold.ttf",
 		StaticContent: fontNanumGothicBold,
+	}
+	resourceIconTabFood = &fyne.StaticResource{
+		StaticName:    "tab_food_icon.png",
+		StaticContent: iconTabFood,
 	}
 )
 

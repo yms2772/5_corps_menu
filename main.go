@@ -31,7 +31,7 @@ func main() {
 	diffWOVData := binding.BindFloat(&diffWOV)
 
 	go func() {
-		ticker = time.NewTicker(time.Second)
+		ticker = time.NewTicker(time.Duration(mainApp.Preferences().IntWithFallback("progress_update_ticker", 100)) * time.Millisecond)
 
 		for {
 			select {
@@ -49,12 +49,20 @@ func main() {
 
 	totalProgress := widget.NewProgressBarWithData(diffData)
 	totalProgress.TextFormatter = func() string {
+		if enterArmyDate == "none" || dischargeArmyDate == "none" {
+			return "데이터 없음"
+		}
+
 		return fmt.Sprintf("%s%% (D-%d)", FixedDecimal(totalProgress.Value*100, mainApp.Preferences().IntWithFallback("progress_decimal_point", 6)), int(dischargeArmyDateTime.Sub(enterArmyDateTime).Hours()/24)-int(time.Now().Sub(enterArmyDateTime).Hours()/24))
 	}
 
 	totalWOVProgress = widget.NewProgressBarWithData(diffWOVData)
 	totalWOVProgress.Hidden = !mainApp.Preferences().BoolWithFallback("early_discharge", true)
 	totalWOVProgress.TextFormatter = func() string {
+		if enterArmyDate == "none" || dischargeArmyDate == "none" {
+			return "데이터 없음"
+		}
+
 		return fmt.Sprintf("%s%% (D-%d)", FixedDecimal(totalWOVProgress.Value*100, mainApp.Preferences().IntWithFallback("progress_decimal_point", 6)), int(dischargeArmyDateTime.AddDate(0, 0, -vacationDay).Sub(enterArmyDateTime).Hours()/24)-int(time.Now().Sub(enterArmyDateTime).Hours()/24))
 	}
 
